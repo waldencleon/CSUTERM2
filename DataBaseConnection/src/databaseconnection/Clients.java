@@ -52,17 +52,23 @@ public class Clients implements Tables {
                 case "listclients"://List all clients
                     listall();
                     break;
+                    
                 case "addclient"://Creat Client
                  
-         create();
+                     create();
          
                     break;
+                    
                 case "removeclient":
+                    removeClient();
+                    
                     break;
+                    
                  case "search_client":
-                     
-                     searchClient();
+                      searchClient();
+                      
                     break; 
+                     
                 case "quit":
                     break OUTER;
             }
@@ -184,5 +190,51 @@ public class Clients implements Tables {
     
     
 }
+    
+    public static void removeClient() throws SQLException{
+        
+        
+        Scanner scanner = new Scanner(System.in);  
+ String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+      
+        Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+        Statement mystmt = myConn.createStatement();
+        ResultSet myRs;
+ 
+ 
+ System.out.println("Enter Clients Name Below:");
+      
+       String input = scanner.nextLine();
+    
+       //Test Validity
+         try{ 
+       
+      
+        String query = "UPDATE clients SET deleted = true  WHERE name = ?";
+          
+         PreparedStatement ps = null;
+          
+          ps = myConn.prepareStatement(query);
+          ps.setString(1, input);
+          
+          
+          myRs = ps.executeQuery();
+         
+         
+        
+ 
+  }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+        
+        
+        
+        
+        
+        
+    }// end of removeClient
     
 }
