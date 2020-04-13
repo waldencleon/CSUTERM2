@@ -19,8 +19,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Movies movies = new Movies();
         Clients clients = new Clients();
-        String input1 = null;
-       String input2 = null;
+        String input1 = "";
+       String input2 = "";
        
        
         System.out.println("----------Welcome to BlockBlaster Movies--------");
@@ -32,18 +32,17 @@ public class Main {
         System.out.println("clients - VIEW CLIENT MENU \n" +
                 "movies - VIEW MOVIE MENU\n" +
                 "rentalinfo - VIEW RENALT_INFO MENU\n" +              
-                "\n" +
-                "Input You Selection Below:");
+                "quit - QUIT Menu\n");
         
-        input1 = scanner.nextLine();
+        
         
         
         //CHECK FOR CORRECT INPUT
         
       while(!input1.equals("clients") || !input1.equals("movies") || !input1.equals("rentalinfo") || !input1.equals("quit")){
           
-          System.out.println("Sorry did recognize that input, please try again:");
-          input1 =scanner.nextLine();
+          System.out.println("Input Your Selection Below:");
+          input1 = scanner.nextLine();
           
           if(input1.equals("clients") || input1.equals("movies") || input1.equals("rentalinfo") || input1.equals("quit")){break;}
           
@@ -54,10 +53,10 @@ public class Main {
         while (!input1.equals("quit")) {
             switch (input1) {
                 case "movies":
-                    movies.dispalyMovieMenu();
+                    movies.displayMovieMenu();
                     break;
                 case "clients":
-                    clients.displayClients();
+                    clients.displayClientMenu();
                     break;
                 case "rentalinfo":
                     break;
@@ -70,19 +69,7 @@ public class Main {
             
             
             
-        
-        
-        
-       
-        
-       
-        //movies.determineCheckOut();
-        
-//           System.out.println("");
-//           clients.getClients();
-//           
-//          System.out.println("");
-//          movies.getMovies();
+
           
        
        

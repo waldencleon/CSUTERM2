@@ -12,11 +12,14 @@ import java.util.Scanner;
  */
 public class Movies implements Tables {
     
- public void dispalyMovieMenu() throws SQLException{
+ public void displayMovieMenu() throws SQLException{
      Scanner scanner = new Scanner(System.in);
-     String input1 = null;
-     String input2 = null;
+     String input1 = "";
+     String input2 = "";
      
+     //Movie Menu
+     System.out.println("");      
+        System.out.println("----------");
      System.out.println("MOVIE MENU");
         System.out.println("----------");
         System.out.println("checkout - Checkout a Movie\n" +
@@ -24,11 +27,21 @@ public class Movies implements Tables {
                 "addmovie - Add Movie to Database\n" +
                 "listmovies - List all Movies in Database\n" +
                 "removemovie - Remove Movie From Database \n" +
-                "quit - Quit BlockBlaster Menu \n" +
-                "\n" +
-                "Input You Selection Below:");
+                "quit - Quit BlockBlaster Menu \n");
                 
-        input1 = scanner.nextLine();
+        
+        
+        //Validate Input
+        while(!input1.equals("checkout") || !input1.equals("addmovie") || !input1.equals("listmovies") || !input1.equals("quit") || !input1.equals("removemovie") || !input1.equals("checkmovie")){
+          
+          System.out.println("Input Your Selection Below:");
+          input1 =scanner.nextLine();
+          
+          if(input1.equals("checkout") || input1.equals("addmovie") || input1.equals("listmovies") || input1.equals("quit") || input1.equals("removemovie") || input1.equals("checkmovie")){break;}
+          
+      }
+        
+        
         
         OUTER:
         while (!input1.equals("quit")) {
@@ -39,10 +52,10 @@ public class Movies implements Tables {
                 case "addmovie":
        
         System.out.println("Enter the Movie Name:");
-        input1 = scanner.nextLine();
+        input1 = scanner.next();
         
         System.out.println("Enter movie_id:");
-        input2 = scanner.nextLine();
+        input2 = scanner.next();
         
                     create(input1, Integer.parseInt(input2), false);
                     break;
@@ -52,11 +65,12 @@ public class Movies implements Tables {
                  case "checkout":
                     break; 
                      case "removemovie":
+                         removeMovie();
                     break;
                 case "quit":
                     break OUTER;
             }
-            break;
+            displayMovieMenu();
         }
         
      
@@ -167,6 +181,46 @@ public class Movies implements Tables {
       
   }// end of determine function
     
+  public static void removeMovie() throws SQLException{
+      
+      Scanner scanner = new Scanner(System.in);  
+ String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+      
+      Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+ 
+ 
+ System.out.println("Enter a movie name to remove a movie below.");
+        System.out.println("Enter a Movie Name: ");
+       String input = scanner.next();
+    
+       //Test Validity
+         try{ 
+       
+      
+        String query = "DELETE FROM movies WHERE name =? ";
+          
+         PreparedStatement ps = null;
+          
+          ps = myConn.prepareStatement(query);
+          ps.setString(1, input);
+          
+         myRs = ps.executeQuery();
+         
+         System.out.println("Movie Deleted");
+        
+ 
+  }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+         
+         
+      
+  }
     
     
 }
