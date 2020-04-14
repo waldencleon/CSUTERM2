@@ -403,36 +403,18 @@ public class Movies implements Tables {
      Integer client_id = client.searchClient();
   
       
-    //Get Movie_id
+   // Get Movie_id
     Integer movie_id = getMovieID(input);
     
             
     //Get Rental Id
     Integer rental_id;
+    
     rental_id = rentalIDOffSet + generateRentalID();
     
     
     
-      String rentalInfoQuery = "UPDATE rentalinfo SET client_id=?, movie_id=?, rental_id=?, date_out=?";
-      
-      
-      
-      try{
-          
-          ps = myConn.prepareStatement(rentalInfoQuery);
-          
-          
-          ps.setInt(1, client_id);
-          ps.setInt(2, movie_id);
-          ps.setInt(3, rental_id);
-          ps.setInt(4, date);
-         
-          
-          myRs = ps.executeQuery();
-          
-      }catch (SQLException ex) {
-           System.out.println(ex.getMessage());
-      }
+   rentalinfo.updateRentalInfo(client_id, date, movie_id, rental_id);
       
       
       
