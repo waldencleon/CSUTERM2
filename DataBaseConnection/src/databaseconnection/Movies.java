@@ -12,6 +12,40 @@ import java.util.Scanner;
  */
 public class Movies implements Tables {
     
+ public Integer rentalIDOffSet = 1;
+ 
+ public String menu(){
+ Scanner scanner = new Scanner(System.in);
+     String input1 = "";
+        
+     
+//Movie Menu
+     System.out.println("");      
+        System.out.println("----------");
+     System.out.println("MOVIE MENU");
+        System.out.println("----------");
+        System.out.println("checkout - Checkout a Movie\n" +
+                "checkmovie - Determine If Movie is Checked Out\n" +
+                "addmovie - Add Movie to Database\n" +
+                "listmovies - List all Movies in Database\n" +
+                "removemovie - Remove Movie From Database \n" +
+                "returnmovie -- Return Movie to Database \n" +
+                "quit - Quit BlockBlaster Menu \n");
+                
+        
+        
+        //Validate Input
+        while(!input1.equals("checkout") || !input1.equals("addmovie") || !input1.equals("listmovies") || !input1.equals("quit") || !input1.equals("removemovie") || !input1.equals("checkmovie") || !input1.equals("returnkmovie")){
+          
+          System.out.println("Input Your Selection Below:");
+          input1 =scanner.nextLine();
+          
+          if(input1.equals("checkout") || input1.equals("addmovie") || input1.equals("listmovies") || input1.equals("quit") || input1.equals("removemovie") || input1.equals("checkmovie")|| input1.equals("returnkmovie")){break;}
+          
+      }
+        return input1;
+ }
+    
  public void displayMovieMenu() throws SQLException{
      Scanner scanner = new Scanner(System.in);
      String input1 = "";
@@ -27,57 +61,83 @@ public class Movies implements Tables {
                 "addmovie - Add Movie to Database\n" +
                 "listmovies - List all Movies in Database\n" +
                 "removemovie - Remove Movie From Database \n" +
+                "returnmovie -- Return Movie to Database \n" +
                 "quit - Quit BlockBlaster Menu \n");
                 
         
         
         //Validate Input
-        while(!input1.equals("checkout") || !input1.equals("addmovie") || !input1.equals("listmovies") || !input1.equals("quit") || !input1.equals("removemovie") || !input1.equals("checkmovie")){
+        while(!input1.equals("checkout") || !input1.equals("addmovie") || !input1.equals("listmovies") || !input1.equals("quit") || !input1.equals("removemovie") || !input1.equals("checkmovie") || !input1.equals("returnkmovie")){
           
           System.out.println("Input Your Selection Below:");
           input1 =scanner.nextLine();
           
-          if(input1.equals("checkout") || input1.equals("addmovie") || input1.equals("listmovies") || input1.equals("quit") || input1.equals("removemovie") || input1.equals("checkmovie")){break;}
+          if(input1.equals("checkout") || input1.equals("addmovie") || input1.equals("listmovies") || input1.equals("quit") || input1.equals("removemovie") || input1.equals("checkmovie")|| input1.equals("returnkmovie")){break;}
           
       }
         
         
-        
-        OUTER:
+        //Menu Loop
+        if(!input1.equals("quit")){
+       
+          OUTER:
         while (!input1.equals("quit")) {
             switch (input1) {
+                
                 case "listmovies":
                     listall();
                     break;
+                    
                 case "addmovie":
        
         System.out.println("Enter the Movie Name:");
         input1 = scanner.next();
         
-        System.out.println("Enter movie_id:");
+        System.out.println("Enter movie_id(Example 1000):");
         input2 = scanner.next();
         
                     create(input1, Integer.parseInt(input2), false);
                     break;
+                    
                 case "checkmovie":
                     determineCheckOut();
                     break;
                  case "checkout":
-                    break; 
+                
+                 
+                 String available = determineCheckOut();
+                  
+                  if(available.equals("f")){
+                      checkoutMovie();
+                  }else{
+                      System.out.println("Movie is Unavailable");
+                  }
+                     
+                    break;
+                                  
+                 case "returnmovie":
+                     
+                     break;
+                     
                      case "removemovie":
                          removeMovie();
                     break;
-                case "quit":
-                    break OUTER;
+                                        
+                  
             }
-            displayMovieMenu();
+          input1 = menu();
         }
+      }else{
+          System.out.println("Leaving Menu");
+      }
+        
+        
         
      
  }
     
     //List ALL MOVIES
-  public static void listall() throws SQLException{
+  public void listall() throws SQLException{
          
            String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
@@ -102,7 +162,7 @@ public class Movies implements Tables {
      }  
   
   //Create Movie
-  public static void create(String title, Integer movie_id, Boolean rented){
+  public void create(String title, Integer movie_id, Boolean rented){
       String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
  String password = "zxcasdQWE!@#*";
@@ -139,24 +199,28 @@ public class Movies implements Tables {
   
   
   // Determine Checked out
-  public static void determineCheckOut() throws SQLException{
+  public String determineCheckOut() throws SQLException{
      
  Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
  String password = "zxcasdQWE!@#*";
  
+ String checkedOut; //Retuend for determining if user can checkmovie out
+     checkedOut = "";
+     
  Connection myConn = DriverManager.getConnection(url, user, password);
          //Create Statement
  Statement mystmt = myConn.createStatement();
  ResultSet myRs;
      
         System.out.println("Enter a movie name to detrmine if it is checked out below.");
+        
         System.out.println("Enter a Movie Name: ");
        String input = scanner.nextLine();
        
  
-         String query = "select * from movies where title = ? ";
+         String query = "Select * from movies where title = ? ";
          PreparedStatement ps = null;
           
           ps = myConn.prepareStatement(query);
@@ -164,31 +228,30 @@ public class Movies implements Tables {
           
          myRs = ps.executeQuery();
                   
-       
-
-//PRint results; the name and email are the columns that will print the query strings results
-        while(myRs.next()){
+       while(myRs.next()){
             
-              System.out.println(myRs.getString("title") + " -- " + myRs.getString("rented"));
-              if(myRs.getString("rented").equals("f")){
-                  System.out.println("Movie is available for purchase");
-              }
-          
-      }
-      
-      
-      
-      
+         System.out.println(myRs.getString("title") + " -- " + myRs.getString("rented"));
+              
+        if(myRs.getString("rented").equals("f")){
+            System.out.println("Movie is Available for Purchase");
+            
+            checkedOut = myRs.getString("rented");
+        }
+
+         }
+      return checkedOut;
   }// end of determine function
+  
+  
     
-  public static void removeMovie() throws SQLException{
+  public void removeMovie() throws SQLException{
       
-      Scanner scanner = new Scanner(System.in);  
+ Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
  String password = "zxcasdQWE!@#*";
       
-      Connection myConn = DriverManager.getConnection(url, user, password);
+ Connection myConn = DriverManager.getConnection(url, user, password);
          //Create Statement
  Statement mystmt = myConn.createStatement();
  ResultSet myRs;
@@ -219,6 +282,160 @@ public class Movies implements Tables {
       }
          
          
+      
+  }// End of RemoveMovie
+  
+  //Returns Movie_ID
+ public Integer getMovieID(String title) throws SQLException {
+      
+ String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+ PreparedStatement ps = null;
+ Integer movie_id = 0;
+ Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+     
+   
+       
+ 
+         String query = "select movie_id from movies where title = ? ";
+         
+        
+          ps = myConn.prepareStatement(query);
+          ps.setString(1, title);
+          
+         myRs = ps.executeQuery();
+         
+    while(myRs.next()){
+        
+       movie_id = Integer.parseInt(myRs.getString("movie_id"));
+    }
+       
+     return movie_id;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ //Generate Rental ID
+ public Integer generateRentalID() throws SQLException{
+       
+ String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+ PreparedStatement ps = null;
+ Integer sum =0;
+ 
+ Connection myConn = DriverManager.getConnection(url, user, password);
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+     
+       
+ 
+         String query = "select rental_id from rentalinfo";
+         
+          
+          ps = myConn.prepareStatement(query);
+          
+          
+         myRs = ps.executeQuery();
+                  
+
+        while(myRs.next()){
+           
+           sum += myRs.getInt("rental_id");
+              
+    }
+    
+        return sum;
+     
+ }
+  
+  public void checkoutMovie() throws SQLException{
+ Clients client = new Clients();
+ RentalInfo rentalinfo = new RentalInfo();
+ Scanner scanner = new Scanner(System.in);  
+ String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+ 
+ 
+ 
+ Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+ 
+      System.out.println("Enter Movie Again to Finalize Checkout:");
+      String input = scanner.next();
+      
+      String query1 = "UPDATE movies\n" +
+"	SET  rented= true \n" +
+"	WHERE title = ? ";
+       PreparedStatement ps = null;
+       
+       
+      try{
+         
+          ps = myConn.prepareStatement(query1);
+          
+          ps.setString(1, input);
+          
+         myRs = ps.executeQuery();
+          
+          
+      }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+      
+      
+      //Get Date
+      System.out.println("Enter the Date (Example May 1st -- 050120:");
+      Integer date = Integer.parseInt(scanner.next());
+      
+      //Get Client_id
+      System.out.println("Search Client for Checking Out Movie");
+     Integer client_id = client.searchClient();
+  
+      
+    //Get Movie_id
+    Integer movie_id = getMovieID(input);
+    
+            
+    //Get Rental Id
+    Integer rental_id;
+    rental_id = rentalIDOffSet + generateRentalID();
+    
+    
+    
+      String rentalInfoQuery = "UPDATE rentalinfo SET client_id=?, movie_id=?, rental_id=?, date_out=?";
+      
+      
+      
+      try{
+          
+          ps = myConn.prepareStatement(rentalInfoQuery);
+          
+          
+          ps.setInt(1, client_id);
+          ps.setInt(2, movie_id);
+          ps.setInt(3, rental_id);
+          ps.setInt(4, date);
+         
+          
+          myRs = ps.executeQuery();
+          
+      }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+      
+      
+      
       
   }
     

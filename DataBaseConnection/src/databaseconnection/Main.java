@@ -12,9 +12,6 @@ import java.util.*;
  */
 public class Main {
     
-    
-    
-    
     public static void main(String[] args) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         Movies movies = new Movies();
@@ -49,23 +46,27 @@ public class Main {
       }
         
       //Determine Menu Selection
-        OUTER:
-        while (!input1.equals("quit")) {
-            switch (input1) {
-                case "movies":
-                    movies.displayMovieMenu();
-                    break;
-                case "clients":
-                    clients.displayClientMenu();
-                    break;
-                case "rentalinfo":
-                    break;
-                case "quit":
-                    System.out.println("Leaving Menu");
-                    break OUTER;
-            }
-            break;
-        }
+        
+      if(!input1.equals("quit")){
+          OUTER:
+          while(!input1.equals("quit")){
+              switch (input1) {
+                  case "movies":
+                      movies.displayMovieMenu();
+                      break;
+                  case "clients":
+                      clients.displayClientMenu();
+                      break;
+                  case "rentalinfo":
+                      break;
+              }
+              break;
+          }
+      }else{
+          System.out.println("Leaving Menu");
+      }
+      
+      
             
             
             

@@ -12,6 +12,39 @@ import java.util.*;
  * @author cawalden
  */
 public class Clients implements Tables {
+   
+    
+    public String menu(){
+ Scanner scanner = new Scanner(System.in);
+     String input1 = "";
+        
+     
+//Movie Menu
+     System.out.println("");      
+        System.out.println("----------");
+     System.out.println("MOVIE MENU");
+        System.out.println("----------");
+        System.out.println("checkout - Checkout a Movie\n" +
+                "checkmovie - Determine If Movie is Checked Out\n" +
+                "addmovie - Add Movie to Database\n" +
+                "listmovies - List all Movies in Database\n" +
+                "removemovie - Remove Movie From Database \n" +
+                "returnmovie -- Return Movie to Database \n" +
+                "quit - Quit BlockBlaster Menu \n");
+                
+        
+        
+        //Validate Input
+        while(!input1.equals("checkout") || !input1.equals("addmovie") || !input1.equals("listmovies") || !input1.equals("quit") || !input1.equals("removemovie") || !input1.equals("checkmovie") || !input1.equals("returnkmovie")){
+          
+          System.out.println("Input Your Selection Below:");
+          input1 =scanner.nextLine();
+          
+          if(input1.equals("checkout") || input1.equals("addmovie") || input1.equals("listmovies") || input1.equals("quit") || input1.equals("removemovie") || input1.equals("checkmovie")|| input1.equals("returnkmovie")){break;}
+          
+      }
+        return input1;
+ }
     
     public void displayClientMenu() throws SQLException{
     Scanner scanner = new Scanner(System.in);
@@ -45,10 +78,10 @@ public class Clients implements Tables {
       }
         
        
-        
-        OUTER:
-        while (!input1.equals("quit")) {
+      if(!input1.equals("quit")){
+      while (!input1.equals("quit")) {
             switch (input1) {
+                
                 case "listclients"://List all clients
                     listall();
                     break;
@@ -70,17 +103,25 @@ public class Clients implements Tables {
                     break; 
                      
                 case "quit":
-                    break OUTER;
+                    break;
             }
-            displayClientMenu();
+            input1 = menu();
         }
+      
+      }else{
+          System.out.println("Quitting Menu");
+      }
+      
+      
+     
+        
     
     
     }
     
    
  //List All Clients
-    public static void listall() throws SQLException{
+    public void listall() throws SQLException{
          
            String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
@@ -107,7 +148,7 @@ public class Clients implements Tables {
      }
     
     
-    public static void create(){
+    public void create(){
       String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
  String password = "zxcasdQWE!@#*";
@@ -151,7 +192,7 @@ public class Clients implements Tables {
       
   }
     
-    public static void searchClient() throws SQLException{
+    public Integer searchClient() throws SQLException{
         Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
@@ -162,7 +203,10 @@ public class Clients implements Tables {
          //Create Statement
  Statement mystmt = myConn.createStatement();
  ResultSet myRs;
-     
+ Integer client_id;
+ client_id = 0;
+ 
+ 
         System.out.println("Enter a user's name below to get account details.");
         System.out.println("Enter a User Name: ");
        String input = scanner.nextLine();
@@ -184,14 +228,18 @@ public class Clients implements Tables {
             System.out.println("NAME -- ID -- Disabled_Status -- Movies_rented");
               System.out.println(myRs.getString("name") + " -- " + myRs.getString("client_id")+ " -- " + myRs.getString("deleted")+ " -- " +
                       myRs.getString("rental_count"));
-              
+            
+            
+            client_id = myRs.getInt("client_id");
+            
     }
     
-    
+        return client_id;
+   
     
 }
     
-    public static void removeClient() throws SQLException{
+    public void removeClient() throws SQLException{
         
         
         Scanner scanner = new Scanner(System.in);  
