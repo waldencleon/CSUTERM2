@@ -19,31 +19,33 @@ public class Clients implements Tables {
      String input1 = "";
         
      
-//Movie Menu
-     System.out.println("");      
+//Client Menu
+     System.out.println("");
         System.out.println("----------");
-     System.out.println("MOVIE MENU");
+     System.out.println("CLIENT MENU");
         System.out.println("----------");
-        System.out.println("checkout - Checkout a Movie\n" +
-                "checkmovie - Determine If Movie is Checked Out\n" +
-                "addmovie - Add Movie to Database\n" +
-                "listmovies - List all Movies in Database\n" +
-                "removemovie - Remove Movie From Database \n" +
-                "returnmovie -- Return Movie to Database \n" +
+        System.out.println(
+                "search_client - Find Client by Name\n" +
+                "addclient - Add Client to Database\n" +
+                "listclients - List all Clients in Database\n" +
+                "removeclient - Remove Client From Database \n" +
                 "quit - Quit BlockBlaster Menu \n");
                 
         
         
         //Validate Input
-        while(!input1.equals("checkout") || !input1.equals("addmovie") || !input1.equals("listmovies") || !input1.equals("quit") || !input1.equals("removemovie") || !input1.equals("checkmovie") || !input1.equals("returnkmovie")){
+        while(!input1.equals("search_client") || !input1.equals("addclient") || !input1.equals("listclients") || !input1.equals("removeclient") || !input1.equals("quit")){
           
           System.out.println("Input Your Selection Below:");
-          input1 =scanner.nextLine();
+          input1 = scanner.nextLine();
+        
           
-          if(input1.equals("checkout") || input1.equals("addmovie") || input1.equals("listmovies") || input1.equals("quit") || input1.equals("removemovie") || input1.equals("checkmovie")|| input1.equals("returnkmovie")){break;}
+          if(input1.equals("search_client") || input1.equals("addclient") ||input1.equals("listclients") || input1.equals("removeclient") || input1.equals("quit")){break;}
           
       }
+        
         return input1;
+        
  }
     
     public void displayClientMenu() throws SQLException{
@@ -173,13 +175,14 @@ public class Clients implements Tables {
           ResultSet myRs;
           PreparedStatement ps = null;
          String query = "INSERT INTO clients(\n" +
-                 "	name, client_id, deleted)\n" +
-                 "	VALUES (?, ?, ?)";
+                 "	name, client_id, deleted, rental_count)\n" +
+                 "	VALUES (?, ?, ?,?)";
           
           ps = myConn.prepareStatement(query);
           ps.setString(1, username);
           ps.setInt(2, client_id);
           ps.setBoolean(3, status);
+          ps.setInt(4, 0);
           
          myRs = ps.executeQuery();
          
@@ -207,7 +210,7 @@ public class Clients implements Tables {
  client_id = 0;
  
  
-        System.out.println("Enter a user's name below to get account details.");
+      
         System.out.println("Enter a User Name: ");
        String input = scanner.nextLine();
        
@@ -284,5 +287,103 @@ public class Clients implements Tables {
         
         
     }// end of removeClient
+    
+    public Integer getRentalCount() throws SQLException{
+        Scanner scan = new Scanner(System.in);
+         String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+ PreparedStatement ps = null;
+ Integer rental_count = 0;
+ Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+ 
+        System.out.println("Enter Username to Get Video Count:");
+        String username = scan.nextLine();
+        
+        String query = "Select rental_count from clients where name = ?";
+        
+        ps = myConn.prepareStatement(query);
+          ps.setString(1, username);
+          
+         myRs = ps.executeQuery();
+         
+    while(myRs.next()){
+        
+       rental_count = Integer.parseInt(myRs.getString("rental_count"));
+    }
+       
+     return rental_count;
+ 
+ 
+        
+    }
+    
+    public void addRentalCount(Integer client_id) throws SQLException{
+         
+         String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+ PreparedStatement ps = null;
+ 
+ Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+ 
+ 
+ String query = "UPDATE clients\n" +
+"	SET  rental_count = rental_count + 1\n" +
+"	WHERE client_id = ?";
+ 
+ try{
+ ps = myConn.prepareStatement(query);
+          
+          ps.setInt(1, client_id);
+          
+         myRs = ps.executeQuery();
+          
+          
+      }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+ 
+ 
+    }// end of add rental count
+    
+    
+    public void subtractRentalCount(Integer client_id) throws SQLException{
+        
+        
+         String url = "jdbc:postgresql://localhost:5432/Term2";
+ String user = "postgres";
+ String password = "zxcasdQWE!@#*";
+ PreparedStatement ps = null;
+ 
+ Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+ Statement mystmt = myConn.createStatement();
+ ResultSet myRs;
+ 
+ String query = "UPDATE clients\n" +
+"	SET  rental_count = rental_count - 1\n" +
+"	WHERE client_id = ?";
+ 
+         try{
+ ps = myConn.prepareStatement(query);
+          
+          ps.setInt(1, client_id);
+          
+         myRs = ps.executeQuery();
+          
+          
+      }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+ 
+        
+    }
     
 }

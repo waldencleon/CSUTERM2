@@ -52,5 +52,43 @@ public class RentalInfo {
         
     }
     
+    public void updateReturnDate(Integer returnDate, Integer movie_id) throws SQLException{
+        
+        String url = "jdbc:postgresql://localhost:5432/Term2";
+    String user = "postgres";
+    String password = "zxcasdQWE!@#*";
+ 
+ 
+ 
+    Connection myConn = DriverManager.getConnection(url, user, password);
+         //Create Statement
+    Statement mystmt = myConn.createStatement();
+    ResultSet myRs;
+        
+    String query = "UPDATE public.rentalinfo\n" +
+"	SET  date_in=?\n" +
+"	WHERE movie_id =?";
+    
+    try{
+         
+        PreparedStatement ps = myConn.prepareStatement(query);
+          
+          ps.setInt(1, returnDate);
+          ps.setInt(2,movie_id);
+                  
+          
+         myRs = ps.executeQuery();
+          
+          
+      }catch (SQLException ex) {
+           System.out.println(ex.getMessage());
+      }
+        
+        
+        
+    }
+    
+    
+    
     
 }
