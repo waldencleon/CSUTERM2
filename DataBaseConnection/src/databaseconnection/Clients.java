@@ -127,7 +127,7 @@ public class Clients implements Tables {
          
            String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  
       try{
           //Get Connection
@@ -153,7 +153,7 @@ public class Clients implements Tables {
     public void create(){
       String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  Scanner scan = new Scanner(System.in);
  String username = null;
  Boolean status = false;
@@ -199,7 +199,7 @@ public class Clients implements Tables {
         Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
  
  Connection myConn = DriverManager.getConnection(url, user, password);
@@ -248,7 +248,7 @@ public class Clients implements Tables {
         Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
       
         Connection myConn = DriverManager.getConnection(url, user, password);
          //Create Statement
@@ -292,7 +292,7 @@ public class Clients implements Tables {
         Scanner scan = new Scanner(System.in);
          String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
  Integer rental_count = 0;
  Connection myConn = DriverManager.getConnection(url, user, password);
@@ -325,7 +325,7 @@ public class Clients implements Tables {
          
          String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
  
  Connection myConn = DriverManager.getConnection(url, user, password);
@@ -359,7 +359,7 @@ public class Clients implements Tables {
         
          String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
  
  Connection myConn = DriverManager.getConnection(url, user, password);
