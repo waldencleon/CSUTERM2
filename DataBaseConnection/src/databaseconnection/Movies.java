@@ -145,7 +145,7 @@ public class Movies implements Tables {
          
            String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  
       try{
           //Get Connection
@@ -208,7 +208,7 @@ public class Movies implements Tables {
  Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  
  String checkedOut; //Retuend for determining if user can checkmovie out
      checkedOut = "";
@@ -255,7 +255,7 @@ public class Movies implements Tables {
  Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
       
  Connection myConn = DriverManager.getConnection(url, user, password);
          //Create Statement
@@ -296,7 +296,7 @@ public class Movies implements Tables {
       
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
  Integer movie_id = 0;
  Connection myConn = DriverManager.getConnection(url, user, password);
@@ -333,7 +333,7 @@ public class Movies implements Tables {
        
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
  Integer sum =0;
  
@@ -368,7 +368,7 @@ public class Movies implements Tables {
  Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  
  
  
@@ -446,7 +446,7 @@ public class Movies implements Tables {
  Scanner scanner = new Scanner(System.in);  
  String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
       
       
  
@@ -484,7 +484,7 @@ public class Movies implements Tables {
       
       String url = "jdbc:postgresql://localhost:5432/Term2";
  String user = "postgres";
- String password = "zxcasdQWE!@#*";
+ String password = "<your password here>";
  PreparedStatement ps = null;
       
    Connection myConn = DriverManager.getConnection(url, user, password);
