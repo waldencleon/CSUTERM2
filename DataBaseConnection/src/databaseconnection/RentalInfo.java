@@ -18,7 +18,7 @@ public class RentalInfo {
     public void updateRentalInfo(Integer client_id, Integer date, Integer movie_id , Integer rental_id) throws SQLException{
     String url = "jdbc:postgresql://localhost:5432/Term2";
     String user = "postgres";
-    String password = "zxcasdQWE!@#*";
+    String password = "<your password here>";
  
  
  
@@ -56,7 +56,7 @@ public class RentalInfo {
         
         String url = "jdbc:postgresql://localhost:5432/Term2";
     String user = "postgres";
-    String password = "zxcasdQWE!@#*";
+    String password = "<your password here>";
  
  
  
